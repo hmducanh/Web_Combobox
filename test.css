@@ -1,0 +1,50 @@
+._option {
+    height: 40px;
+    width: 234px;
+    background-color: #7575e6;
+    color: yellow;
+    margin-top: -16px;
+}
+
+._option:hover {
+    background-color: red;
+}
+
+.no_appear {
+    display: none;
+}
+
+.myinput {
+    width: 190px;
+    height: 30px;
+}
+
+.options {
+    padding-left: 30px;
+    padding-top: 10px;
+    height : 20px;
+}
+
+.combobox_button {
+    height: 36px;
+    width: 36px;
+    padding-top: 30px;
+    //background-image: url("./di_xuong.png");
+    background-size: 24px 16px;
+    background-repeat: no-repeat;
+    background-position: 5px 9px;
+    border-radius: 0px;
+    border-width: 1px;
+}
+
+.arrowdown {
+    background-image: url("./di_xuong.png");
+}
+
+.arrowup {
+    background-image: url("./di_len.png");
+}
+
+.container {
+    display: flex;
+}
