@@ -17,6 +17,18 @@
 .myinput {
     width: 190px;
     height: 30px;
+    border-collapse: 0px;
+    border-radius: 0;
+}
+
+.myinput:focus {
+    border-color: white;
+    border-radius: 0;
+}
+
+.error_input {
+    border-color: red;
+    border-radius: 0;
 }
 
 .options {
