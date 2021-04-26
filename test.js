@@ -151,3 +151,16 @@ $("#Other").click(function () {
     $(".myinput").val("Khác");
     down_button();
 });
+
+$(document).mouseup(function (e) {
+    var container = $("#combobox");
+
+    // if the target of the click isn't the container nor a descendant of the container
+    if (!$("#Other").hasClass("no_appear") || !$("#Male").hasClass("no_appear") || !$("#Female").hasClass("no_appear")) {
+        if (!container.is(e.target) && container.has(e.target).length === 0) {
+            console.log(4);
+            close_option();
+            down_button();
+        }
+    }
+});
