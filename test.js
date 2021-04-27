@@ -1,3 +1,9 @@
+var Options = ["Nam", "Nữ", "Khác"];
+var Options_id = ["#Male", "#Female", "#Other"];
+// khi bat dau an la no se xuat phat tu phan tu ngoai cung
+var now_down = -1, now_up = 4;
+
+// hien combobox
 $(document).ready(function () {
     $(".combobox_button").click(function () {
         if ($("#btn").hasClass("arrowup")) {
@@ -18,10 +24,18 @@ $(document).ready(function () {
     });
 });
 
+// lay so be hon
+
+function min(a, b) {
+    return (a < b) ? a : b;
+}
+
+// kiem tra xem a co phai la chuoi con cua b khong
+
 function check_substring(a, b) {
     if (a == "")
         return false;
-    for (let i = 0; i < a.length; i++)
+    for (let i = 0; i < min(a.length, b.length); i++)
     {
         if (a[i] == b[i] || a[i] == b[i].toUpperCase()) {
             continue;
@@ -33,12 +47,16 @@ function check_substring(a, b) {
     return true;
 }
 
+// chuyen mui ten len tren
+
 function up_button() {
     if ($("#btn").hasClass("arrowup")) {
         $("#btn").removeClass("arrowup");
         $("#btn").addClass("arrowdown");
     }
 }
+
+// chuyen mui ten xuong duoi
 
 function down_button() {
     if ($("#btn").hasClass("arrowdown")) {
@@ -47,20 +65,45 @@ function down_button() {
     }
 }
 
+// dong option
+
+function close_option() {
+    if (!$("#Other").hasClass("no_appear")) {
+        $("#Other").addClass("no_appear");
+    }
+    if (!$("#Male").hasClass("no_appear")) {
+        $("#Male").addClass("no_appear");
+    }
+    if (!$("#Female").hasClass("no_appear")) {
+        $("#Female").addClass("no_appear");
+    }
+}
+
+// hien vien do neu nhap sai
+
 function fix_border_input(check) {
     console.log(2);
     if (check == true) {
-        if (!$(".myinput").hasClass("error_input")) {
             console.log(3);
-            $(".myinput").addClass("error_input");
-        }
+            $(".myinput").css("border-color", "red");
     }
     else {
-        if ($(".myinput").hasClass("error_input")) {
-            $(".myinput").removeClass("error_input");
-        }
+        $(".myinput").css("border-color", "black");
     }
 }
+
+// xu ly chi 1 option duoc chon cung 1 luc
+
+function selected_option(optionId) {
+    for (let i = 0; i < Options.length; i++) {
+        if (Options_id[i] == optionId)
+            $(Options_id[i]).css("background-color", "red");
+        else
+            $(Options_id[i]).css("background-color", "#7575e6");
+    }
+}
+
+// xu ly input
 
 $(".myinput").on("input", function () {
     var s = $(".myinput").val();
@@ -113,26 +156,7 @@ $(".myinput").on("input", function () {
     }
 });
 
-$('.myinput').keypress(function (e) {
-    var key = e.which;
-    if (key == 13)  // the enter key code
-    {
-        close_option();
-        down_button();
-    }
-});   
-
-function close_option() {
-    if (!$("#Other").hasClass("no_appear")) {
-        $("#Other").addClass("no_appear");
-    }
-    if (!$("#Male").hasClass("no_appear")) {
-        $("#Male").addClass("no_appear");
-    }
-    if (!$("#Female").hasClass("no_appear")) {
-        $("#Female").addClass("no_appear");
-    }
-}
+// click option
 
 $("#Male").click(function () {
     close_option();
@@ -152,13 +176,79 @@ $("#Other").click(function () {
     down_button();
 });
 
-$(document).mouseup(function (e) {
-    var container = $("#combobox");
+// hover option
 
-    // if the target of the click isn't the container nor a descendant of the container
-    if (!$("#Other").hasClass("no_appear") || !$("#Male").hasClass("no_appear") || !$("#Female").hasClass("no_appear")) {
-        if (!container.is(e.target) && container.has(e.target).length === 0) {
-            console.log(4);
+$("#Male").hover(function () {
+    $(".myinput").val("Nam");   
+    selected_option("#Male");
+});
+
+$("#Female").hover(function () {
+    $(".myinput").val("Nữ");
+    selected_option("#Female");
+});
+
+$("#Other").hover(function () {
+    $(".myinput").val("Khác");
+    selected_option("#Other");
+});
+
+// kiem tra xem co dang hien option khong
+
+function check_show() {
+    if (!$("#Female").hasClass("no_appear") || !$("#Male").hasClass("no_appear") || !$("#Other").hasClass("no_appear"))
+        return true;
+    return false;
+}
+
+// khi an phim enter
+
+$('.myinput').keypress(function (e) {
+    var key = e.which;
+    if (key == 13)  // an enter
+    {
+        close_option();
+        down_button();
+    }
+});   
+
+// khi an di xuong
+
+$(function () {
+    $(document).keydown(function (e) {
+        key = e.which;
+        if (check_show()) {
+            if (key == 40) // di xuong
+            {
+                if (now_down == Options.length - 1)
+                    now_down = 0;
+                else
+                    now_down = now_down + 1;
+                $(".myinput").val(Options[now_down]);
+                selected_option(Options_id[now_down]);
+            }
+            if (key == 38) // di len
+            {
+                if (now_up == 0)
+                    now_up = Options.length - 1;
+                else
+                    now_up = now_up - 1;
+                $(".myinput").val(Options[now_up]);
+                selected_option(Options_id[now_up]);
+            }
+        }
+    });  
+});  
+
+// click chuot ra ngoai
+
+window.addEventListener('click', function (event) {
+    var _input = document.getElementById('genderInput');
+    var _btn = document.getElementById('btn');
+    var _option = document.getElementById('combobox');
+    if (event.target != _input && event.target != _btn && event.target != _option) {
+        console.log(check_show());
+        if (check_show()) {
             close_option();
             down_button();
         }
