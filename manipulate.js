@@ -181,16 +181,19 @@ $("#Other").click(function () {
 $("#Male").hover(function () {
     $(".myinput").val("Nam");   
     selected_option("#Male");
+    now_up = now_down = 0;
 });
 
 $("#Female").hover(function () {
     $(".myinput").val("Nữ");
     selected_option("#Female");
+    now_up = now_down = 1;
 });
 
 $("#Other").hover(function () {
     $(".myinput").val("Khác");
     selected_option("#Other");
+    now_up = now_down = 2;
 });
 
 // kiem tra xem co dang hien option khong
@@ -226,6 +229,7 @@ $(function () {
                     now_down = now_down + 1;
                 $(".myinput").val(Options[now_down]);
                 selected_option(Options_id[now_down]);
+                now_up = now_down;
             }
             if (key == 38) // di len
             {
@@ -235,6 +239,7 @@ $(function () {
                     now_up = now_up - 1;
                 $(".myinput").val(Options[now_up]);
                 selected_option(Options_id[now_up]);
+                now_down = now_up;
             }
         }
     });  
